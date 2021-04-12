@@ -3,40 +3,31 @@ import styled from "styled-components";
 
 import QLine from "./QLine";
 
-const Composer = ({ selectedGate }) => {
-	const [q1Gates, setQ1Gates] = React.useState([
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		""
-	]);
-	const [q2Gates, setQ2Gates] = React.useState([
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		""
-	]);
+import { roundAccurately } from "./../../helpers";
+
+const initialGateState = ["", "", "", "", "", "", "", "", "", ""];
+
+const Composer = ({ selectedGate, setResults }) => {
+	const [q1Gates, setQ1Gates] = React.useState([...initialGateState]);
+	const [q2Gates, setQ2Gates] = React.useState([...initialGateState]);
 
 	const handleSolve = () => {
 		return;
 	};
 
 	const handleReset = () => {
-		setQ1Gates(["", "", "", "", "", "", "", "", "", ""]);
-		setQ2Gates(["", "", "", "", "", "", "", "", "", ""]);
+		setQ1Gates([...initialGateState]);
+		setQ2Gates([...initialGateState]);
 	};
+
+	React.useEffect(() => {
+		setResults([
+			roundAccurately(Math.random() * 100, 2),
+			roundAccurately(Math.random() * 100, 2),
+			roundAccurately(Math.random() * 100, 2),
+			roundAccurately(Math.random() * 100, 2)
+		]);
+	}, [q1Gates, q2Gates]);
 
 	return (
 		<Wrapper>
@@ -97,15 +88,16 @@ const Buttons = styled.div`
 	display: flex;
 	justify-content: center;
 	& > button {
+		cursor: pointer;
 		margin: 0 100px;
 		width: 150px;
 		height: 50px;
-		background: var(--primary);
-		border: 2px solid var(--secondary);
+		background: var(--secondary);
+		border: none;
 		border-radius: 5px;
 		font-size: 24px;
 		&:hover {
-			background: var(--primary-light);
+			background: var(--secondary-light);
 		}
 	}
 `;

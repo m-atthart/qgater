@@ -9,13 +9,14 @@ import Saved from "./Saved";
 
 function App() {
 	const [selectedGate, setSelectedGate] = React.useState("");
+	const [results, setResults] = React.useState([100, 0, 0, 0]);
 
 	return (
 		<Wrapper>
 			<Header />
-			<Composer selectedGate={selectedGate} />
+			<Composer selectedGate={selectedGate} setResults={setResults} />
 			<Gates selectedGate={selectedGate} setSelectedGate={setSelectedGate} />
-			<Results />
+			<Results results={results} />
 			<Saved />
 		</Wrapper>
 	);

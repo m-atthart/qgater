@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const Gates = ({ selectedGate, setSelectedGate }) => {
-	const availableGates = ["I", "X", "Z", "H", "CX", "CZ", "SW"];
+	const availableGates = ["S0", "S1", "I", "X", "Z", "H", "CX", "CZ", "SW"];
 
 	return (
 		<Wrapper>
@@ -47,7 +47,7 @@ const Gate = styled.div`
 		border: 3px solid var(--secondary-light);
 	}
 	&:hover {
-		background: var(--primary-light);
+		background: var(--secondary-light);
 	}
 	p {
 		font-size: 24px;
