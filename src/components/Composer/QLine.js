@@ -1,20 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const QLine = ({ selectedGate }) => {
-	const [gates, setGates] = React.useState([
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		""
-	]);
-
+const QLine = ({ gates, setGates, selectedGate }) => {
 	const updateGate = (idx) => {
 		setGates((prev) => {
 			const lst = [...prev];
