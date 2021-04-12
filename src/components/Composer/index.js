@@ -23,9 +23,7 @@ const Composer = ({ selectedGate }) => {
 
 const Wrapper = styled.div`
 	grid-area: composer;
-	background: var(--primary-dark);
 	& > h2 {
-		color: white;
 		position: absolute;
 	}
 `;

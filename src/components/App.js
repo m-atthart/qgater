@@ -31,7 +31,8 @@ const Wrapper = styled.div`
 		"composer composer composer gates"
 		"results results saved saved";
 	& > div {
-		border: 1px solid #ddd;
+		border: 1px solid var(--primary-light);
+		background: var(--primary-dark);
 	}
 `;
 

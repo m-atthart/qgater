@@ -2,12 +2,12 @@ import { createGlobalStyle } from "styled-components";
 
 export default createGlobalStyle`
   :root {
-    --primary: #212121;
-    --primary-light: #484848;
-    --primary-dark: #000000;
-    --secondary: #4527a0;
-    --secondary-light: #7953d2;
-    --secondary-dark: #000070;
+    --primary: #424242;
+    --primary-light: #6d6d6d;
+    --primary-dark: #1b1b1b;
+    --secondary: #512da8;
+    --secondary-light: #8559da;
+    --secondary-dark: #140078;
   }
   *,
   *:before,
@@ -20,6 +20,7 @@ export default createGlobalStyle`
   h1, h2, h3, h4, h5, h6, p,
   text {
     font-family: sans-serif;
+    color: white;
   }
   html, body {
     max-width: 100vw;

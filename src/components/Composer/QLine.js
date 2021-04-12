@@ -41,7 +41,7 @@ const QLine = ({ selectedGate }) => {
 const Wrapper = styled.div`
 	width: 75%;
 	height: 0;
-	border: 1px solid var(--secondary-light);
+	border: 1px solid var(--secondary);
 	display: flex;
 	align-items: center;
 	justify-content: space-evenly;
@@ -62,7 +62,6 @@ const Gate = styled.div`
 	}
 	p {
 		font-size: 24px;
-		color: white;
 		user-select: none;
 	}
 `;

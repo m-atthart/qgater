@@ -44,14 +44,13 @@ const Gate = styled.div`
 	background: var(--primary);
 	cursor: pointer;
 	&.selected {
-		border: 3px solid pink;
+		border: 3px solid var(--secondary-light);
 	}
 	&:hover {
 		background: var(--primary-light);
 	}
 	p {
 		font-size: 24px;
-		color: white;
 		user-select: none;
 	}
 `;
