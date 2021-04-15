@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const QLine = ({ gates, setGates, selectedGate }) => {
+const QLine = ({ gates, setGates, otherGates, selectedGate }) => {
 	const updateGate = (idx) => {
 		setGates((prev) => {
 			const lst = [...prev];
@@ -17,8 +17,20 @@ const QLine = ({ gates, setGates, selectedGate }) => {
 	return (
 		<Wrapper>
 			{gates.map((gate, i) => (
-				<Gate key={i} className={gate || "none"} onClick={() => updateGate(i)}>
-					<p>{gate}</p>
+				<Gate
+					key={i}
+					className={`${gate || "none"} ${
+						(["CX", "CZ", "SW"].includes(otherGates[i]) ||
+							(otherGates[i] && ["CX", "CZ", "SW"].includes(selectedGate))) &&
+						"disabled"
+					}`}
+					onClick={() => updateGate(i)}
+					disabled={
+						["CX", "CZ", "SW"].includes(otherGates[i]) ||
+						(otherGates[i] && ["CX", "CZ", "SW"].includes(selectedGate))
+					}
+				>
+					{gate}
 				</Gate>
 			))}
 		</Wrapper>
@@ -34,22 +46,22 @@ const Wrapper = styled.div`
 	justify-content: space-evenly;
 `;
 
-const Gate = styled.div`
-	display: grid;
-	place-items: center;
+const Gate = styled.button`
+	outline: none;
+	border: none;
 	width: 50px;
 	height: 50px;
 	background: var(--primary);
 	cursor: pointer;
+	font-size: 24px;
 	&.none {
 		background: none;
 	}
-	&:hover {
-		background: var(--primary-light);
+	&.disabled {
+		cursor: auto;
 	}
-	p {
-		font-size: 24px;
-		user-select: none;
+	&:not(.disabled):hover {
+		background: var(--primary-light);
 	}
 `;
 

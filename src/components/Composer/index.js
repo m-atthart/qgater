@@ -41,6 +41,7 @@ const Composer = ({
 					<QLine
 						gates={q0Gates}
 						setGates={setQ0Gates}
+						otherGates={q1Gates}
 						selectedGate={selectedGate}
 					/>
 				</div>
@@ -49,6 +50,7 @@ const Composer = ({
 					<QLine
 						gates={q1Gates}
 						setGates={setQ1Gates}
+						otherGates={q0Gates}
 						selectedGate={selectedGate}
 					/>
 				</div>
