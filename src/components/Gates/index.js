@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const Gates = ({ selectedGate, setSelectedGate }) => {
-	const availableGates = ["S0", "S1", "I", "X", "Z", "H", "CX", "CZ", "SW"];
+	const availableGates = ["I", "X", "Z", "H", "CX", "CZ", "SW"];
 
 	return (
 		<Wrapper>

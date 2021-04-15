@@ -4,10 +4,10 @@ import styled from "styled-components";
 const Results = ({ results }) => {
 	return (
 		<Wrapper>
-			<Output>00: {results[0]}%</Output>
-			<Output>01: {results[1]}%</Output>
-			<Output>10: {results[2]}%</Output>
-			<Output>11: {results[3]}%</Output>
+			<Output>00: {results[0] * 100}%</Output>
+			<Output>01: {results[1] * 100}%</Output>
+			<Output>10: {results[2] * 100}%</Output>
+			<Output>11: {results[3] * 100}%</Output>
 		</Wrapper>
 	);
 };

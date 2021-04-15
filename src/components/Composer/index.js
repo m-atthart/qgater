@@ -5,19 +5,22 @@ import QLine from "./QLine";
 
 import { roundAccurately } from "./../../helpers";
 
-const initialGateState = ["", "", "", "", "", "", "", "", "", ""];
-
-const Composer = ({ selectedGate, setResults }) => {
-	const [q1Gates, setQ1Gates] = React.useState([...initialGateState]);
-	const [q2Gates, setQ2Gates] = React.useState([...initialGateState]);
-
+const Composer = ({
+	initialGateState,
+	q0Gates,
+	setQ0Gates,
+	q1Gates,
+	setQ1Gates,
+	selectedGate,
+	setResults
+}) => {
 	const handleSolve = () => {
 		return;
 	};
 
 	const handleReset = () => {
+		setQ0Gates([...initialGateState]);
 		setQ1Gates([...initialGateState]);
-		setQ2Gates([...initialGateState]);
 	};
 
 	React.useEffect(() => {
@@ -27,7 +30,7 @@ const Composer = ({ selectedGate, setResults }) => {
 			roundAccurately(Math.random() * 100, 2),
 			roundAccurately(Math.random() * 100, 2)
 		]);
-	}, [q1Gates, q2Gates]);
+	}, [q0Gates, q1Gates]);
 
 	return (
 		<Wrapper>
@@ -36,16 +39,16 @@ const Composer = ({ selectedGate, setResults }) => {
 				<div>
 					<p>q0</p>
 					<QLine
-						gates={q1Gates}
-						setGates={setQ1Gates}
+						gates={q0Gates}
+						setGates={setQ0Gates}
 						selectedGate={selectedGate}
 					/>
 				</div>
 				<div>
 					<p>q1</p>
 					<QLine
-						gates={q2Gates}
-						setGates={setQ2Gates}
+						gates={q1Gates}
+						setGates={setQ1Gates}
 						selectedGate={selectedGate}
 					/>
 				</div>
