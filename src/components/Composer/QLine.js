@@ -1,17 +1,31 @@
 import React from "react";
 import styled from "styled-components";
 
-const QLine = ({ gates, setGates, otherGates, selectedGate }) => {
+const QLine = ({
+	gates,
+	setGates,
+	otherGates,
+	setOtherGates,
+	selectedGate
+}) => {
 	const updateGate = (idx) => {
-		setGates((prev) => {
-			const lst = [...prev];
-			if (gates[idx]) {
-				lst.splice(idx, 1, ""); //if there's a gate, remove it
-			} else {
-				lst.splice(idx, 1, selectedGate);
-			}
-			return lst;
-		});
+		if (["CX", "CZ", "SW"].includes(otherGates[idx])) {
+			setOtherGates((prev) => {
+				const lst = [...prev];
+				lst.splice(idx, 1, "");
+				return lst;
+			});
+		} else {
+			setGates((prev) => {
+				const lst = [...prev];
+				if (gates[idx]) {
+					lst.splice(idx, 1, ""); //if there's a gate, remove it
+				} else {
+					lst.splice(idx, 1, selectedGate);
+				}
+				return lst;
+			});
+		}
 	};
 
 	return (
@@ -19,18 +33,28 @@ const QLine = ({ gates, setGates, otherGates, selectedGate }) => {
 			{gates.map((gate, i) => (
 				<Gate
 					key={i}
-					className={`${gate || "none"} ${
-						(["CX", "CZ", "SW"].includes(otherGates[i]) ||
-							(otherGates[i] && ["CX", "CZ", "SW"].includes(selectedGate))) &&
+					className={`${
+						gate ||
+						(["CX", "CZ", "SW"].includes(otherGates[i]) && otherGates[i]) ||
+						"none"
+					} ${
+						otherGates[i] &&
+						!["CX", "CZ", "SW"].includes(otherGates[i]) &&
+						["CX", "CZ", "SW"].includes(selectedGate) &&
 						"disabled"
 					}`}
 					onClick={() => updateGate(i)}
 					disabled={
-						["CX", "CZ", "SW"].includes(otherGates[i]) ||
-						(otherGates[i] && ["CX", "CZ", "SW"].includes(selectedGate))
+						otherGates[i] &&
+						!["CX", "CZ", "SW"].includes(otherGates[i]) &&
+						["CX", "CZ", "SW"].includes(selectedGate)
 					}
 				>
-					{gate}
+					{(["CX", "CZ"].includes(gates[i]) && "C") ||
+						(["CX", "CZ"].includes(otherGates[i]) &&
+							otherGates[i].split("")[1]) ||
+						(otherGates[i] === "SW" && "SW") ||
+						gate}
 				</Gate>
 			))}
 		</Wrapper>

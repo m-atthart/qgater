@@ -18,6 +18,7 @@ function App() {
 	const [results, setResults] = React.useState([100, 0, 0, 0]);
 
 	React.useEffect(() => {
+		//change onClick in QLine which sets other gates at same time with proper gate. OR, change the rendered gate in QLine to render C if gate is CX and X if otherGates[i] is CX
 		setResults(calculateQuantumState(q0Gates, q1Gates));
 	}, [q0Gates, q1Gates]);
 
@@ -31,7 +32,6 @@ function App() {
 				q1Gates={q1Gates}
 				setQ1Gates={setQ1Gates}
 				selectedGate={selectedGate}
-				setResults={setResults}
 			/>
 			<Gates selectedGate={selectedGate} setSelectedGate={setSelectedGate} />
 			<Results results={results} />

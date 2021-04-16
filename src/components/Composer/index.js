@@ -3,16 +3,13 @@ import styled from "styled-components";
 
 import QLine from "./QLine";
 
-import { roundAccurately } from "./../../helpers";
-
 const Composer = ({
 	initialGateState,
 	q0Gates,
 	setQ0Gates,
 	q1Gates,
 	setQ1Gates,
-	selectedGate,
-	setResults
+	selectedGate
 }) => {
 	const handleSolve = () => {
 		return;
@@ -22,15 +19,6 @@ const Composer = ({
 		setQ0Gates([...initialGateState]);
 		setQ1Gates([...initialGateState]);
 	};
-
-	React.useEffect(() => {
-		setResults([
-			roundAccurately(Math.random() * 100, 2),
-			roundAccurately(Math.random() * 100, 2),
-			roundAccurately(Math.random() * 100, 2),
-			roundAccurately(Math.random() * 100, 2)
-		]);
-	}, [q0Gates, q1Gates]);
 
 	return (
 		<Wrapper>
@@ -42,6 +30,7 @@ const Composer = ({
 						gates={q0Gates}
 						setGates={setQ0Gates}
 						otherGates={q1Gates}
+						setOtherGates={setQ1Gates}
 						selectedGate={selectedGate}
 					/>
 				</div>
@@ -51,6 +40,7 @@ const Composer = ({
 						gates={q1Gates}
 						setGates={setQ1Gates}
 						otherGates={q0Gates}
+						setOtherGates={setQ0Gates}
 						selectedGate={selectedGate}
 					/>
 				</div>
