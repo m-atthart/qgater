@@ -1,6 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
+import { AppContext } from "./AppContext";
+
+import DisplayNameModal from "./DisplayNameModal";
 import Header from "./Header";
 import Composer from "./Composer";
 import Gates from "./Gates";
@@ -12,6 +15,12 @@ import { calculateQuantumState } from "./../helpers";
 const initialGateState = ["", "", "", "", "", "", "", "", "", ""];
 
 function App() {
+	const {
+		enterDisplayName,
+		signInWithGoogle,
+		handleSignOut
+	} = React.useContext(AppContext);
+
 	const [q0Gates, setQ0Gates] = React.useState([...initialGateState]);
 	const [q1Gates, setQ1Gates] = React.useState([...initialGateState]);
 	const [selectedGate, setSelectedGate] = React.useState("");
@@ -23,20 +32,23 @@ function App() {
 	}, [q0Gates, q1Gates]);
 
 	return (
-		<Wrapper>
-			<Header />
-			<Composer
-				initialGateState={initialGateState}
-				q0Gates={q0Gates}
-				setQ0Gates={setQ0Gates}
-				q1Gates={q1Gates}
-				setQ1Gates={setQ1Gates}
-				selectedGate={selectedGate}
-			/>
-			<Gates selectedGate={selectedGate} setSelectedGate={setSelectedGate} />
-			<Results results={results} />
-			<Saved />
-		</Wrapper>
+		<>
+			{enterDisplayName && <DisplayNameModal />}
+			<Wrapper>
+				<Header />
+				<Composer
+					initialGateState={initialGateState}
+					q0Gates={q0Gates}
+					setQ0Gates={setQ0Gates}
+					q1Gates={q1Gates}
+					setQ1Gates={setQ1Gates}
+					selectedGate={selectedGate}
+				/>
+				<Gates selectedGate={selectedGate} setSelectedGate={setSelectedGate} />
+				<Results results={results} />
+				<Saved />
+			</Wrapper>
+		</>
 	);
 }
 

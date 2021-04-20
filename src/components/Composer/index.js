@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
+import { AppContext } from "./../AppContext";
+
 import QLine from "./QLine";
 
 const Composer = ({
@@ -11,6 +13,8 @@ const Composer = ({
 	setQ1Gates,
 	selectedGate
 }) => {
+	const { displayName } = React.useContext(AppContext);
+
 	const handleSolve = () => {
 		return;
 	};
@@ -46,7 +50,13 @@ const Composer = ({
 				</div>
 			</QLines>
 			<Buttons>
-				<button onClick={handleSolve}>Solve</button>
+				<button
+					disabled={!displayName}
+					className={!displayName && "disabled"}
+					onClick={handleSolve}
+				>
+					Save
+				</button>
 				<button onClick={handleReset}>Reset</button>
 			</Buttons>
 		</Wrapper>
@@ -91,7 +101,11 @@ const Buttons = styled.div`
 		border: none;
 		border-radius: 5px;
 		font-size: 24px;
-		&:hover {
+		&.disabled {
+			filter: contrast(50%);
+			cursor: auto;
+		}
+		&:not(.disabled):hover {
 			background: var(--secondary-light);
 		}
 	}

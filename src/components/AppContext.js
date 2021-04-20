@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState } from "react";
 import withFirebaseAuth from "react-with-firebase-auth";
-import * as firebase from "firebase";
+import firebase from "firebase";
 import "firebase/auth";
 
 export const firebaseConfig = {
@@ -53,12 +53,16 @@ const AppProvider = ({ children, signInWithGoogle, signOut, user }) => {
 		signOut();
 	};
 
-	useEffect(getDisplayName, [user]);
+	useEffect(() => {
+		if (user) getDisplayName();
+		else setDisplayName(null);
+	}, [user]);
 
 	return (
 		<AppContext.Provider
 			value={{
 				displayName,
+				setDisplayName,
 				enterDisplayName,
 				getDisplayName,
 				signInWithGoogle,
