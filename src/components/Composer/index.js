@@ -62,7 +62,6 @@ const Composer = ({
 				/>
 			)}
 			<Wrapper>
-				<h2>Composer</h2>
 				<QLines>
 					<div>
 						<p>q0</p>

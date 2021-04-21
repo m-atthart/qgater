@@ -61,8 +61,17 @@ const getCircuits = async (req, res) => {
 	});
 };
 
-const searchCircuits = async (searchTerm) => {
+const searchCircuits = async (req, res) => {
+	const searchTerm = req.query.searchTerm;
 	return;
+};
+
+const runCircuitOnIBMQC = async (req, res) => {
+	const { q0, q1 } = req.body;
+
+	res.status(200).json({
+		status: 200
+	});
 };
 
 const getUser = async (email) => {

@@ -6,7 +6,6 @@ const Gates = ({ selectedGate, setSelectedGate }) => {
 
 	return (
 		<Wrapper>
-			<h2>Gates</h2>
 			{/* add tooltip click to select. click on the line to place. click again to remove. for control gates, place on control qubit */}
 			{availableGates.map((gate) => (
 				<Gate
