@@ -1,19 +1,35 @@
 import React from "react";
 import styled from "styled-components";
 
+import { AppContext } from "./../AppContext";
+
 import Circuit from "./Circuit";
 
-const Saved = () => {
+const Saved = ({ setQ0Gates, setQ1Gates }) => {
+	const { userEmail } = React.useContext(AppContext);
 	const [selectedTab, setSelectedTab] = React.useState("user");
 	const [circuits, setCircuits] = React.useState([]);
-	const currentUser = "matt";
+	const [privateCircuits, setPrivateCircuits] = React.useState([]);
+	const [publicCircuits, setPublicCircuits] = React.useState([]);
 
 	React.useEffect(() => {
-		setCircuits([
-			{ user: "matt", circuit: "1" },
-			{ user: "marie", circuit: "2" }
-		]);
-	}, []);
+		if (selectedTab === "user") setCircuits(privateCircuits);
+		else if (selectedTab === "community") setCircuits(publicCircuits);
+	}, [selectedTab, privateCircuits, publicCircuits]);
+
+	React.useEffect(() => {
+		fetch(`/circuits?email=${userEmail}`)
+			.then((res) => res.json())
+			.then((json) => {
+				if (json.status === 200) {
+					console.log(json);
+					setPrivateCircuits(json.privateCircuits);
+					setPublicCircuits(json.publicCircuits);
+				} else {
+					return;
+				}
+			});
+	}, [userEmail]);
 
 	return (
 		<Wrapper>
@@ -32,13 +48,13 @@ const Saved = () => {
 				</Button>
 			</Tabs>
 			<Circuits>
-				{circuits
-					.filter((circuit) =>
-						selectedTab === "user" ? circuit.user === currentUser : true
-					)
-					.map((circuit) => (
-						<Circuit circuit={circuit} />
-					))}
+				{circuits.map((circuit) => (
+					<Circuit
+						circuit={circuit}
+						setQ0Gates={setQ0Gates}
+						setQ1Gates={setQ1Gates}
+					/>
+				))}
 			</Circuits>
 		</Wrapper>
 	);

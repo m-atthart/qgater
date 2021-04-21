@@ -46,7 +46,7 @@ function App() {
 				/>
 				<Gates selectedGate={selectedGate} setSelectedGate={setSelectedGate} />
 				<Results results={results} />
-				<Saved />
+				<Saved setQ0Gates={setQ0Gates} setQ1Gates={setQ1Gates} />
 			</Wrapper>
 		</>
 	);

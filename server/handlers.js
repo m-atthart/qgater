@@ -16,7 +16,7 @@ const addCircuit = async (req, res) => {
 };
 
 const getCircuits = async (req, res) => {
-	const email = req.body.email;
+	const email = req.query.email;
 
 	let publicQCircuits = db
 		.collection("qcircuits")
