@@ -5,10 +5,14 @@ admin.initializeApp({ credential: admin.credential.cert(serviceAccount) });
 
 const db = admin.firestore();
 
-const addCircuit = async ({ title, displayName, email, private, q0, q1 }) => {
+const addCircuit = async (req, res) => {
+	const { title, displayName, email, privacy, q0, q1 } = req.body;
 	await db
 		.collection("qcircuits")
-		.add({ title, displayName, email, private, q0, q1, timestamp: new Date() });
+		.add({ title, displayName, email, privacy, q0, q1, timestamp: new Date() });
+	res.status(200).json({
+		status: 200
+	});
 };
 
 const getCircuits = async (req, res) => {
@@ -16,13 +20,13 @@ const getCircuits = async (req, res) => {
 
 	let publicQCircuits = db
 		.collection("qcircuits")
-		.where("private", "==", false)
+		.where("privacy", "==", false)
 		.orderBy("timestamp", "desc")
 		.limit(20)
 		.get();
 	let privateQCircuits = db
 		.collection("qcircuits")
-		.where("private", "==", true)
+		.where("privacy", "==", true)
 		.where("email", "==", email)
 		.orderBy("timestamp", "desc")
 		.limit(20)
@@ -38,14 +42,14 @@ const getCircuits = async (req, res) => {
 	publicQCircuits.forEach((doc) => {
 		const circuit = doc.data();
 		delete circuit.email;
-		delete circuit.private;
+		delete circuit.privacy;
 		delete circuit.timestamp;
 		publicCircuits.push(circuit);
 	});
 	privateQCircuits.forEach((doc) => {
 		const circuit = doc.data();
 		delete circuit.email;
-		delete circuit.private;
+		delete circuit.privacy;
 		delete circuit.timestamp;
 		privateCircuits.push(circuit);
 	});

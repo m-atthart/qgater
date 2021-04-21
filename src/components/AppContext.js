@@ -62,6 +62,7 @@ const AppProvider = ({ children, signInWithGoogle, signOut, user }) => {
 		<AppContext.Provider
 			value={{
 				displayName,
+				userEmail: user?.email,
 				setDisplayName,
 				enterDisplayName,
 				getDisplayName,

@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 import { AppContext } from "./../AppContext";
 
+import SaveModal from "./SaveModal";
 import QLine from "./QLine";
 
 const Composer = ({
@@ -13,10 +14,34 @@ const Composer = ({
 	setQ1Gates,
 	selectedGate
 }) => {
-	const { displayName } = React.useContext(AppContext);
+	const { displayName, userEmail } = React.useContext(AppContext);
+	const [title, setTitle] = React.useState("");
+	const [privacy, setPrivacy] = React.useState(false);
+	const [displaySaveModal, setDisplaySaveModal] = React.useState(false);
 
-	const handleSolve = () => {
-		return;
+	const handleSave = () => {
+		fetch("/circuits/add", {
+			method: "post",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify({
+				title,
+				displayName,
+				email: userEmail,
+				privacy,
+				q0: q0Gates,
+				q1: q1Gates
+			})
+		})
+			.then((res) => res.json())
+			.then((json) => {
+				if (json.status === 200) {
+					setDisplaySaveModal(false);
+				} else {
+					return;
+				}
+			});
 	};
 
 	const handleReset = () => {
@@ -25,41 +50,53 @@ const Composer = ({
 	};
 
 	return (
-		<Wrapper>
-			<h2>Composer</h2>
-			<QLines>
-				<div>
-					<p>q0</p>
-					<QLine
-						gates={q0Gates}
-						setGates={setQ0Gates}
-						otherGates={q1Gates}
-						setOtherGates={setQ1Gates}
-						selectedGate={selectedGate}
-					/>
-				</div>
-				<div>
-					<p>q1</p>
-					<QLine
-						gates={q1Gates}
-						setGates={setQ1Gates}
-						otherGates={q0Gates}
-						setOtherGates={setQ0Gates}
-						selectedGate={selectedGate}
-					/>
-				</div>
-			</QLines>
-			<Buttons>
-				<button
-					disabled={!displayName}
-					className={!displayName && "disabled"}
-					onClick={handleSolve}
-				>
-					Save
-				</button>
-				<button onClick={handleReset}>Reset</button>
-			</Buttons>
-		</Wrapper>
+		<>
+			{displaySaveModal && (
+				<SaveModal
+					title={title}
+					setTitle={setTitle}
+					privacy={privacy}
+					setPrivacy={setPrivacy}
+					handleSave={handleSave}
+					setDisplaySaveModal={setDisplaySaveModal}
+				/>
+			)}
+			<Wrapper>
+				<h2>Composer</h2>
+				<QLines>
+					<div>
+						<p>q0</p>
+						<QLine
+							gates={q0Gates}
+							setGates={setQ0Gates}
+							otherGates={q1Gates}
+							setOtherGates={setQ1Gates}
+							selectedGate={selectedGate}
+						/>
+					</div>
+					<div>
+						<p>q1</p>
+						<QLine
+							gates={q1Gates}
+							setGates={setQ1Gates}
+							otherGates={q0Gates}
+							setOtherGates={setQ0Gates}
+							selectedGate={selectedGate}
+						/>
+					</div>
+				</QLines>
+				<Buttons>
+					<button
+						disabled={!displayName}
+						className={!displayName && "disabled"}
+						onClick={() => setDisplaySaveModal(true)}
+					>
+						Save
+					</button>
+					<button onClick={handleReset}>Reset</button>
+				</Buttons>
+			</Wrapper>
+		</>
 	);
 };
 
