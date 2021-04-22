@@ -5,17 +5,22 @@ import { AppContext } from "./../AppContext";
 
 import Circuit from "./Circuit";
 
-const Saved = ({ setQ0Gates, setQ1Gates }) => {
+const Saved = ({
+	setQ0Gates,
+	setQ1Gates,
+	updateCircuits,
+	setUpdateCircuits
+}) => {
 	const { userEmail } = React.useContext(AppContext);
 	const [selectedTab, setSelectedTab] = React.useState("user");
 	const [circuits, setCircuits] = React.useState([]);
-	const [privateCircuits, setPrivateCircuits] = React.useState([]);
-	const [publicCircuits, setPublicCircuits] = React.useState([]);
+	const [userCircuits, setUserCircuits] = React.useState([]);
+	const [communityCircuits, setCommunityCircuits] = React.useState([]);
 
 	React.useEffect(() => {
-		if (selectedTab === "user") setCircuits(privateCircuits);
-		else if (selectedTab === "community") setCircuits(publicCircuits);
-	}, [selectedTab, privateCircuits, publicCircuits]);
+		if (selectedTab === "user") setCircuits(userCircuits);
+		else if (selectedTab === "community") setCircuits(communityCircuits);
+	}, [selectedTab, userCircuits, communityCircuits]);
 
 	React.useEffect(() => {
 		fetch(`/circuits?email=${userEmail}`)
@@ -23,13 +28,13 @@ const Saved = ({ setQ0Gates, setQ1Gates }) => {
 			.then((json) => {
 				if (json.status === 200) {
 					console.log(json);
-					setPrivateCircuits(json.privateCircuits);
-					setPublicCircuits(json.publicCircuits);
+					setUserCircuits(json.userCircuits);
+					setCommunityCircuits(json.communityCircuits);
 				} else {
 					return;
 				}
 			});
-	}, [userEmail]);
+	}, [userEmail, updateCircuits]);
 
 	return (
 		<Wrapper>
@@ -50,9 +55,11 @@ const Saved = ({ setQ0Gates, setQ1Gates }) => {
 			<Circuits>
 				{circuits.map((circuit) => (
 					<Circuit
+						userCircuit={selectedTab === "user"}
 						circuit={circuit}
 						setQ0Gates={setQ0Gates}
 						setQ1Gates={setQ1Gates}
+						setUpdateCircuits={setUpdateCircuits}
 					/>
 				))}
 			</Circuits>
@@ -62,6 +69,7 @@ const Saved = ({ setQ0Gates, setQ1Gates }) => {
 
 const Wrapper = styled.div`
 	grid-area: saved;
+	min-height: 0;
 `;
 
 const Tabs = styled.div`
@@ -86,7 +94,9 @@ const Button = styled.button`
 	}
 `;
 const Circuits = styled.div`
+	height: calc(100% - 50px);
 	border-top: 1px solid var(--primary-light);
+	overflow-y: auto;
 `;
 
 export default Saved;

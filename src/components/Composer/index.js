@@ -12,7 +12,8 @@ const Composer = ({
 	setQ0Gates,
 	q1Gates,
 	setQ1Gates,
-	selectedGate
+	selectedGate,
+	setUpdateCircuits
 }) => {
 	const { displayName, userEmail } = React.useContext(AppContext);
 	const [title, setTitle] = React.useState("");
@@ -36,8 +37,9 @@ const Composer = ({
 		})
 			.then((res) => res.json())
 			.then((json) => {
-				if (json.status === 200) {
+				if (json.status === 201) {
 					setDisplaySaveModal(false);
+					setUpdateCircuits((prev) => !prev);
 				} else {
 					return;
 				}

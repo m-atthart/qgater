@@ -26,6 +26,7 @@ function App() {
 	const [selectedGate, setSelectedGate] = React.useState("");
 	const [results, setResults] = React.useState([100, 0, 0, 0]);
 	const [resultSource, setResultSource] = React.useState("Simulator");
+	const [updateCircuits, setUpdateCircuits] = React.useState(true);
 
 	React.useEffect(() => {
 		//change onClick in QLine which sets other gates at same time with proper gate. OR, change the rendered gate in QLine to render C if gate is CX and X if otherGates[i] is CX
@@ -44,6 +45,7 @@ function App() {
 					q1Gates={q1Gates}
 					setQ1Gates={setQ1Gates}
 					selectedGate={selectedGate}
+					setUpdateCircuits={setUpdateCircuits}
 				/>
 				<Gates selectedGate={selectedGate} setSelectedGate={setSelectedGate} />
 				<Results
@@ -51,7 +53,12 @@ function App() {
 					resultSource={resultSource}
 					setResultSource={setResultSource}
 				/>
-				<Saved setQ0Gates={setQ0Gates} setQ1Gates={setQ1Gates} />
+				<Saved
+					setQ0Gates={setQ0Gates}
+					setQ1Gates={setQ1Gates}
+					updateCircuits={updateCircuits}
+					setUpdateCircuits={setUpdateCircuits}
+				/>
 			</Wrapper>
 		</>
 	);

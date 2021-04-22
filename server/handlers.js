@@ -10,55 +10,62 @@ const addCircuit = async (req, res) => {
 	await db
 		.collection("qcircuits")
 		.add({ title, displayName, email, privacy, q0, q1, timestamp: new Date() });
-	res.status(200).json({
-		status: 200
+	res.status(201).json({
+		status: 201
 	});
 };
 
 const getCircuits = async (req, res) => {
 	const email = req.query.email;
 
-	let publicQCircuits = db
+	let communityQCircuits = db
 		.collection("qcircuits")
 		.where("privacy", "==", false)
+		.where("email", "!=", email)
+		.orderBy("email", "asc")
 		.orderBy("timestamp", "desc")
 		.limit(20)
 		.get();
-	let privateQCircuits = db
+	let userQCircuits = db
 		.collection("qcircuits")
-		.where("privacy", "==", true)
 		.where("email", "==", email)
 		.orderBy("timestamp", "desc")
 		.limit(20)
 		.get();
 
-	[publicQCircuits, privateQCircuits] = await Promise.all([
-		publicQCircuits,
-		privateQCircuits
+	[communityQCircuits, userQCircuits] = await Promise.all([
+		communityQCircuits,
+		userQCircuits
 	]);
 
-	const publicCircuits = [];
-	const privateCircuits = [];
-	publicQCircuits.forEach((doc) => {
+	const communityCircuits = [];
+	const userCircuits = [];
+	communityQCircuits.forEach((doc) => {
 		const circuit = doc.data();
+		circuit.id = doc.id;
 		delete circuit.email;
 		delete circuit.privacy;
 		delete circuit.timestamp;
-		publicCircuits.push(circuit);
+		communityCircuits.push(circuit);
 	});
-	privateQCircuits.forEach((doc) => {
+	userQCircuits.forEach((doc) => {
 		const circuit = doc.data();
+		circuit.id = doc.id;
 		delete circuit.email;
-		delete circuit.privacy;
 		delete circuit.timestamp;
-		privateCircuits.push(circuit);
+		userCircuits.push(circuit);
 	});
 
 	res.status(200).json({
 		status: 200,
-		publicCircuits,
-		privateCircuits
+		communityCircuits,
+		userCircuits
 	});
+};
+
+const deleteCircuit = async (req, res) => {
+	await db.collection("qcircuits").doc(req.body.id).delete();
+	res.status(200).json({ status: 200 });
 };
 
 const searchCircuits = async (req, res) => {
@@ -107,5 +114,6 @@ const getDisplayName = async (req, res) => {
 module.exports = {
 	addCircuit,
 	getCircuits,
+	deleteCircuit,
 	getDisplayName
 };
