@@ -24,10 +24,10 @@ const gates = {
 		[0.7071, -0.7071]
 	],
 	Q0CX: [
-		[0, 1, 0, 0],
 		[1, 0, 0, 0],
+		[0, 0, 0, 1],
 		[0, 0, 1, 0],
-		[0, 0, 0, 1]
+		[0, 1, 0, 0]
 	],
 	Q1CX: [
 		[1, 0, 0, 0],
@@ -76,6 +76,6 @@ export const calculateQuantumState = (q0Gates, q1Gates) => {
 			);
 		}
 	});
-	output = output.map((val) => roundAccurately(val[0] * val[0], 2));
+	output = output.map((val) => val[0] * val[0]);
 	return output;
 };

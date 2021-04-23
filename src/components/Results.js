@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
+import { roundAccurately } from "./../helpers";
+
 const Results = ({ results, resultSource, setResultSource }) => {
 	const [resultValues, setResultValues] = React.useState(results);
 
@@ -9,7 +11,7 @@ const Results = ({ results, resultSource, setResultSource }) => {
 			results.map((result) => {
 				console.log(typeof result);
 				if (typeof result === "number") {
-					return `${result * 100}%`;
+					return `${roundAccurately(result * 100, 2)}%`;
 				}
 				return result;
 			})
