@@ -1,6 +1,7 @@
 const admin = require("firebase-admin");
 const serviceAccount = require("./qgater-admin.json");
 const fetch = require("node-fetch");
+require("dotenv").config();
 const { timeout, convertToFractions, qobjify } = require("./utils");
 const {
 	getBackends,
@@ -87,7 +88,7 @@ const searchCircuits = async (req, res) => {
 };
 
 let jobId;
-const backend = "ibmq_qasm_simulator";
+const backend = process.env.BACKEND || "ibmq_qasm_simulator";
 
 const createIBMQJob = async (req, res) => {
 	const { q0, q1 } = req.body;
