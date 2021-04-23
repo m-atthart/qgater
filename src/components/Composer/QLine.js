@@ -41,13 +41,15 @@ const QLine = ({
 						otherGates[i] &&
 						!["CX", "CZ", "SW"].includes(otherGates[i]) &&
 						["CX", "CZ", "SW"].includes(selectedGate) &&
+						!gate &&
 						"disabled"
 					}`}
 					onClick={() => updateGate(i)}
 					disabled={
 						otherGates[i] &&
 						!["CX", "CZ", "SW"].includes(otherGates[i]) &&
-						["CX", "CZ", "SW"].includes(selectedGate)
+						["CX", "CZ", "SW"].includes(selectedGate) &&
+						!gate
 					}
 				>
 					{(["CX", "CZ"].includes(gates[i]) && "C") ||
