@@ -72,7 +72,7 @@ const Wrapper = styled.div`
 
 const Gate = styled.button`
 	outline: none;
-	border: none;
+	border: 1px solid var(--primary);
 	width: 50px;
 	height: 50px;
 	background: var(--primary);

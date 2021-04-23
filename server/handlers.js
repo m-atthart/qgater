@@ -1,5 +1,19 @@
 const admin = require("firebase-admin");
 const serviceAccount = require("./qgater-admin.json");
+const fetch = require("node-fetch");
+const {
+	getBackends,
+	createJob,
+	cancelJob,
+	deleteJob,
+	uploadQobj,
+	callbackUpload,
+	callbackDownload,
+	jobStatus,
+	resultUrl,
+	timeout,
+	qobjify
+} = require("./ibmReqs");
 
 admin.initializeApp({ credential: admin.credential.cert(serviceAccount) });
 
@@ -73,6 +87,70 @@ const searchCircuits = async (req, res) => {
 	return;
 };
 
+let jobId;
+const backend = "ibmq_qasm_simulator";
+
+const createIBMQJob = async (req, res) => {
+	const { q0, q1 } = req.body;
+	const qobj = qobjify(q0, q1);
+
+	const job = await fetch(createJob(backend));
+	if (job.status !== 200) {
+		res.status(502).send();
+		return;
+	}
+	const jobData = await job.json();
+	const uploadUrl = jobData.objectStorageInfo.uploadUrl;
+	jobId = jobData.id;
+	console.log(jobId);
+
+	const upload = await fetch(uploadQobj(uploadUrl, qobj));
+	if (upload.status !== 200) {
+		res.status(502).send();
+		return;
+	}
+
+	//res.status(200).json({ uploadUrl: job.objectStorageInfo.uploadUrl });
+	//return
+	//};
+
+	//const callbackUploaded = async (req, res) => {
+	const callback = await fetch(callbackUpload(jobId));
+	if (callback.status !== 200) {
+		res.status(502).send();
+		return;
+	}
+	let status = await fetch(jobStatus(jobId));
+	let statusData = await status.json();
+	let stat = statusData.status;
+	while (stat !== "COMPLETED") {
+		await timeout(5);
+		status = await fetch(jobStatus(jobId));
+		statusData = await status.json();
+		stat = statusData.status;
+	}
+	const download = await fetch(resultUrl(jobId));
+	const downloadData = await download.json();
+	const downloadUrl = downloadData.url;
+	//res.status(200).json({ downloadUrl });
+	//return
+
+	const results = await fetch(downloadUrl);
+	if (results.status !== 200) {
+		res.status(502).send();
+		return;
+	}
+	const resultsData = await results.json();
+	const counts = resultsData.results[0].data.counts;
+	res.status(200).json({
+		"00": counts["0x0"] || 0,
+		"01": counts["0x1"] || 0,
+		10: counts["0x2"] || 0,
+		11: counts["0x3"] || 0,
+		timeTaken: resultsData.time_taken
+	});
+};
+
 const runCircuitOnIBMQC = async (req, res) => {
 	const { q0, q1 } = req.body;
 
@@ -115,5 +193,6 @@ module.exports = {
 	addCircuit,
 	getCircuits,
 	deleteCircuit,
-	getDisplayName
+	getDisplayName,
+	createIBMQJob
 };
