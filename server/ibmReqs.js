@@ -107,49 +107,6 @@ const resultUrl = (jobId) => {
 	});
 };
 
-const timeout = (s) => {
-	return new Promise((res) => setTimeout(res, s * 1000));
-};
-
-const qobjify = (q0, q1) => {
-	return {
-		qobj_id: "bell_test",
-		type: "QASM",
-		schema_version: "1.3.0",
-		experiments: [
-			{
-				header: {
-					description: "|11>+|00> Bell"
-				},
-				config: {},
-				instructions: [
-					{
-						name: "u2",
-						qubits: [0],
-						params: [0, 3.14159]
-					},
-					{
-						name: "cx",
-						qubits: [0, 1]
-					},
-					{
-						name: "measure",
-						qubits: [0, 1],
-						memory: [0, 1]
-					}
-				]
-			}
-		],
-		header: {
-			description: "Bell states"
-		},
-		config: {
-			shots: 256,
-			memory_slots: 2
-		}
-	};
-};
-
 module.exports = {
 	getBackends,
 	createJob,
@@ -159,7 +116,5 @@ module.exports = {
 	callbackUpload,
 	callbackDownload,
 	jobStatus,
-	resultUrl,
-	timeout,
-	qobjify
+	resultUrl
 };

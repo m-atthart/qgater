@@ -1,6 +1,7 @@
 const admin = require("firebase-admin");
 const serviceAccount = require("./qgater-admin.json");
 const fetch = require("node-fetch");
+const { timeout, qobjify } = require("./utils");
 const {
 	getBackends,
 	createJob,
@@ -10,9 +11,7 @@ const {
 	callbackUpload,
 	callbackDownload,
 	jobStatus,
-	resultUrl,
-	timeout,
-	qobjify
+	resultUrl
 } = require("./ibmReqs");
 
 admin.initializeApp({ credential: admin.credential.cert(serviceAccount) });
@@ -149,6 +148,9 @@ const createIBMQJob = async (req, res) => {
 		11: counts["0x3"] || 0,
 		timeTaken: resultsData.time_taken
 	});
+
+	await fetch(deleteJob(jobId));
+	return;
 };
 
 const runCircuitOnIBMQC = async (req, res) => {
