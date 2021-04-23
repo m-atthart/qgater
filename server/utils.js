@@ -2,6 +2,17 @@ const timeout = (s) => {
 	return new Promise((res) => setTimeout(res, s * 1000));
 };
 
+const roundAccurately = (number, decimalPlaces) => {
+	return Number(
+		Math.round(number + "e" + decimalPlaces) + "e-" + decimalPlaces
+	);
+};
+
+const convertToFractions = (results) => {
+	const total = results.reduce((acc, curr) => acc + curr, 0);
+	return results.map((result) => roundAccurately(result / total, 2));
+};
+
 const qobjify = (q0, q1) => {
 	const qobj = {
 		qobj_id: "CirQit",
@@ -54,5 +65,6 @@ const qobjify = (q0, q1) => {
 
 module.exports = {
 	timeout,
+	convertToFractions,
 	qobjify
 };

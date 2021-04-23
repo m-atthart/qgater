@@ -1,7 +1,7 @@
 const admin = require("firebase-admin");
 const serviceAccount = require("./qgater-admin.json");
 const fetch = require("node-fetch");
-const { timeout, qobjify } = require("./utils");
+const { timeout, convertToFractions, qobjify } = require("./utils");
 const {
 	getBackends,
 	createJob,
@@ -140,12 +140,19 @@ const createIBMQJob = async (req, res) => {
 		return;
 	}
 	const resultsData = await results.json();
+
 	const counts = resultsData.results[0].data.counts;
+	const percentages = convertToFractions([
+		counts["0x0"] || 0,
+		counts["0x1"] || 0,
+		counts["0x2"] || 0,
+		counts["0x3"] || 0
+	]);
 	res.status(200).json({
-		"00": counts["0x0"] || 0,
-		"01": counts["0x1"] || 0,
-		10: counts["0x2"] || 0,
-		11: counts["0x3"] || 0,
+		"00": percentages[0],
+		"01": percentages[1],
+		10: percentages[2],
+		11: percentages[3],
 		timeTaken: resultsData.time_taken
 	});
 

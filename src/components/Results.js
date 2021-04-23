@@ -2,6 +2,20 @@ import React from "react";
 import styled from "styled-components";
 
 const Results = ({ results, resultSource, setResultSource }) => {
+	const [resultValues, setResultValues] = React.useState(results);
+
+	React.useEffect(() => {
+		setResultValues(
+			results.map((result) => {
+				console.log(typeof result);
+				if (typeof result === "number") {
+					return `${result * 100}%`;
+				}
+				return result;
+			})
+		);
+	}, [results]);
+
 	return (
 		<Wrapper>
 			<span>
@@ -19,10 +33,10 @@ const Results = ({ results, resultSource, setResultSource }) => {
 						: " Simulator"}
 				</button>
 			</span>
-			<Output>00: {results[0] * 100}%</Output>
-			<Output>01: {results[1] * 100}%</Output>
-			<Output>10: {results[2] * 100}%</Output>
-			<Output>11: {results[3] * 100}%</Output>
+			<Output>00: {resultValues[0]}</Output>
+			<Output>01: {resultValues[1]}</Output>
+			<Output>10: {resultValues[2]}</Output>
+			<Output>11: {resultValues[3]}</Output>
 		</Wrapper>
 	);
 };

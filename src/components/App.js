@@ -30,8 +30,36 @@ function App() {
 
 	React.useEffect(() => {
 		//change onClick in QLine which sets other gates at same time with proper gate. OR, change the rendered gate in QLine to render C if gate is CX and X if otherGates[i] is CX
-		setResults(calculateQuantumState(q0Gates, q1Gates));
+		if (resultSource === "Simulator") {
+			setResults(calculateQuantumState(q0Gates, q1Gates));
+		}
 	}, [q0Gates, q1Gates]);
+
+	React.useEffect(async () => {
+		if (resultSource === "IBM Quantum Computer") {
+			setResults(["...", "...", "...", "..."]);
+			const ibmq = await fetch("/circuits/ibmq", {
+				method: "post",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({ q0: q0Gates, q1: q1Gates })
+			});
+			if (ibmq.status === 200) {
+				const ibmqData = await ibmq.json();
+				setResults([
+					ibmqData["00"],
+					ibmqData["01"],
+					ibmqData["10"],
+					ibmqData["11"]
+				]);
+			} else {
+				setResults(["error", "error", "error", "error"]);
+			}
+		} else {
+			setResults(calculateQuantumState(q0Gates, q1Gates));
+		}
+	}, [resultSource]);
 
 	return (
 		<>
