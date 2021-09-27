@@ -1,70 +1,23 @@
-# Getting Started with Create React App
+# Quantum Circuit Simulator
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## How to Use
 
-## Available Scripts
+Select a quantum logic gate on the right and click on any open space in the circuit to place it. To place control gates, click the open space on the qubit you want to be the control. To delete a gate, click on it. Click "Reset" to quickly clear the entire circuit.\
+Every time you change the circuit, the results will automatically update.
 
-In the project directory, you can run:
+Press "Run on IBM Quantum Computer" to run the circuit you created on a real IBM quantum computer and have those results displayed instead of the simulated results. It does work, but most of the time, it can take up to 30 minutes because the queues can get very long. Make sure not to change the circuit to anything else while waiting for the results.
 
-### `yarn start`
+Press "Sign In" in the upper right corner to sign in using your Google account. This will allow you to save your circuits, either privately or publicly. Any publicly saved circuits will be viewable in the "Community Circuits" tab, even if not signed in to an account.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+![screenshot of web app](./screenshot.png)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## How to Run
 
-### `yarn test`
+-Clone the Project\
+-Run npm start in root directory and server directory
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Extra Info
 
-### `yarn build`
+Made with React, Express, and Firebase in two weeks as final project of Concordia University web development bootcamp. Watch my presentation
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+In case you don't want to blindly trust my math, you can verify it by creating the same circuits on [IBM Quantum Composer](https://quantum-computing.ibm.com/composer/)
