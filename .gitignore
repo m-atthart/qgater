@@ -1,5 +1,4 @@
 .DS_Store
-/node_modules
-/server/node_modules
+node_modules
 .env
 qgater-admin.json
