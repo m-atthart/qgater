@@ -14,7 +14,7 @@ Press "Sign In" in the upper right corner to sign in using your Google account. 
 ## How to Run
 
 -Clone the Project\
--Run npm start in client and server directory
+-Run `npm start` in server and client directories
 
 ## Extra Info
 
